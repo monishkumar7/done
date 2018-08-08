@@ -1,8 +1,6 @@
 @import "styles/colors";
 
 .Input {
-  width: 100%;
-  padding: 10px;
   box-sizing: border-box;
 }
 
@@ -10,25 +8,26 @@
   font-weight: bold;
   display: block;
   margin-bottom: 8px;
+  font-size: 12px;
+  text-transform: uppercase;
+  text-align: left !important;
 }
 
 .InputElement {
   outline: none;
-  border: 1px solid #ccc;
-  background-color: white;
-  font: inherit;
-  padding: 6px 10px;
+  border: 1px solid $grey-light;
+  background-color: $white;
+  padding: 4px 7px;
   display: block;
   width: 100%;
   box-sizing: border-box;
+  margin-bottom: 10px;
 }
 
 .InputElement:focus {
-  outline: none;
-  background-color: #eee;
+  box-shadow: 0 1px 1px $grey-light;
 }
 
 .Invalid {
-  border: 1px solid red;
-  background-color: salmon;
+  border: 2px solid $error;
 }

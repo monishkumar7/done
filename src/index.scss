@@ -1,0 +1,8 @@
+@import "styles/colors";
+@import "styles/fonts";
+@import "styles/normalize";
+
+body {
+  font-family: $font-stack;
+  color: $black;
+}

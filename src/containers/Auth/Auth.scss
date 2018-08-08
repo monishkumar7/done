@@ -1,4 +1,14 @@
 @import "styles/colors";
-.Auth {
-  background-color: $primary-light;
+
+.LoginForm {
+  width: 400px;
+  height: 300px;
+  margin: 20px auto;
+  text-align: center;
+  box-sizing: border-box;
+  box-shadow: 0 0 4px $grey-light;
+  padding: 20px;
+  h4 {
+    text-transform: uppercase;
+  }
 }

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import classes from "./Auth.css";
 import Input from "../../components/UI/Input/Input";
+import Button from "../../components/UI/Button/Button";
 
 class Auth extends Component {
   state = {
@@ -12,6 +13,7 @@ class Auth extends Component {
           type: "email",
           placeholder: "Email Address"
         },
+        label: "Email Address",
         validation: {
           required: true
         },
@@ -29,6 +31,7 @@ class Auth extends Component {
           required: true,
           minLength: 6
         },
+        label: "Password",
         value: "",
         valid: false,
         touched: false
@@ -84,14 +87,20 @@ class Auth extends Component {
         invalid={!formElement.config.valid}
         shouldValidate={formElement.config.validation}
         touched={formElement.config.touched}
+        label={formElement.config.label}
         changed={event => this.inputChangedHandler(event, formElement.id)}
       />
     ));
+
+    let formHeader = <h4>Sign In</h4>;
+    if (this.state.isSignUp) formHeader = <h4>Sign Up</h4>;
+
     return (
       <div className={classes.Auth}>
-        <form onSubmit={this.submitHandler}>
+        <form className={classes.LoginForm} onSubmit={this.submitHandler}>
+          {formHeader}
           {form}
-          <button>Submit</button>
+          <Button btnType="Danger">Submit</Button>
         </form>
       </div>
     );
