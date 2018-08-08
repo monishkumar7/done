@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
 import classes from "./Auth.css";
 import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
+import * as actionCreators from "../../store/actions";
 
 class Auth extends Component {
   state = {
@@ -67,6 +69,19 @@ class Auth extends Component {
 
   submitHandler = event => {
     event.preventDefault();
+    this.props.onAuth(
+      this.state.controls.email.value,
+      this.state.controls.password.value,
+      this.state.isSignUp
+    );
+  };
+
+  signUpMode = () => {
+    this.setState({ isSignUp: true });
+  };
+
+  signInMode = () => {
+    this.setState({ isSignUp: false });
   };
 
   render() {
@@ -92,19 +107,52 @@ class Auth extends Component {
       />
     ));
 
-    let formHeader = <h4>Sign In</h4>;
-    if (this.state.isSignUp) formHeader = <h4>Sign Up</h4>;
+    let authTitle = <h4>{this.state.isSignUp ? "Sign Up" : "Sign In"}</h4>;
+
+    let switchModeText = (
+      <div>
+        {this.state.isSignUp ? (
+          <p onClick={this.signInMode}>
+            Already have an account with us? Please click here to sign in.
+          </p>
+        ) : (
+          <p onClick={this.signUpMode}>
+            New User? Please click here to create an account.
+          </p>
+        )}
+      </div>
+    );
 
     return (
       <div className={classes.Auth}>
         <form className={classes.LoginForm} onSubmit={this.submitHandler}>
-          {formHeader}
+          {authTitle}
           {form}
-          <Button btnType="Danger">Submit</Button>
+          <Button btnType="Danger">
+            {this.state.isSignUp ? "sign up" : "Sign In"}
+          </Button>
+          {this.props.errorMsg}
+          {switchModeText}
         </form>
       </div>
     );
   }
 }
 
-export default Auth;
+const mapStateToProps = state => {
+  return {
+    errorMsg: state.errorMsg
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAuth: (email, password, isSignUp) =>
+      dispatch(actionCreators.authStart(email, password, isSignUp))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Auth);

@@ -10,11 +10,14 @@ import "./index.css";
 import App from "./containers/App/App";
 import registerServiceWorker from "./registerServiceWorker";
 
-import reducer from "./store/reducers/reducer";
+import authReducer from "./store/reducers/auth";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
+const store = createStore(
+  authReducer,
+  composeEnhancers(applyMiddleware(thunk))
+);
 
 const app = (
   <Provider store={store}>
