@@ -1,2 +1,5 @@
+@import url("https://fonts.googleapis.com/css?family=Cabin");
 .App {
+  font-family: "Cabin", sans-serif;
+  color: #1976d2;
   text-align: center; }
