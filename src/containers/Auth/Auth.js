@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 import classes from "./Auth.css";
 import Input from "../../components/UI/Input/Input";
@@ -109,6 +110,10 @@ class Auth extends Component {
 
     let authTitle = <h4>{this.state.isSignUp ? "Sign Up" : "Sign In"}</h4>;
 
+    let authRedirect = null;
+    if (this.props.loggedIn)
+      authRedirect = <Redirect to={this.props.authRedirectPath} />;
+
     let switchModeText = (
       <div>
         {this.state.isSignUp ? (
@@ -125,13 +130,16 @@ class Auth extends Component {
 
     return (
       <div className={classes.Auth}>
+        {authRedirect}
         <form className={classes.LoginForm} onSubmit={this.submitHandler}>
           {authTitle}
           {form}
           <Button btnType="Danger">
             {this.state.isSignUp ? "sign up" : "Sign In"}
           </Button>
+          <br />
           {this.props.errorMsg}
+          <br />
           {switchModeText}
         </form>
       </div>
@@ -141,7 +149,9 @@ class Auth extends Component {
 
 const mapStateToProps = state => {
   return {
-    errorMsg: state.errorMsg
+    errorMsg: state.errorMsg,
+    authRedirectPath: state.authRedirectPath,
+    loggedIn: state.loggedIn
   };
 };
 

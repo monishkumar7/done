@@ -1,8 +1,7 @@
 import axios from "axios";
 
 import * as actionTypes from "./actionTypes";
-
-const appKey = "AIzaSyAgpXZ50ti4iw1nO-KfNVYCjPJ7nNkESsg";
+import { firebaseAPIKey } from "../../keys";
 
 export const authStart = (email, password, isSignup) => {
   return dispatch => {
@@ -13,20 +12,24 @@ export const authStart = (email, password, isSignup) => {
     };
     let postUrl =
       "https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=" +
-      appKey;
+      firebaseAPIKey;
     if (isSignup)
       postUrl =
         "https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=" +
-        appKey;
+        firebaseAPIKey;
     axios
       .post(postUrl, postData)
       .then(response => {
-        console.log(response);
-        // dispatch(signUpSuccess());
+        dispatch(
+          authSuccess(
+            response.data.idToken,
+            response.data.refreshToken,
+            response.data.expiresIn
+          )
+        );
       })
       .catch(error => {
-        console.log(error);
-        // dispatch(signUpFail());
+        dispatch(authFail(error.message));
       });
   };
 };
@@ -44,5 +47,11 @@ export const authFail = errorMsg => {
   return {
     type: actionTypes.AUTH_FAIL,
     errorMsg: errorMsg
+  };
+};
+
+export const logout = () => {
+  return {
+    type: actionTypes.AUTH_LOGOUT
   };
 };

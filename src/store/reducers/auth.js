@@ -6,7 +6,8 @@ const initialState = {
   idToken: null,
   refreshToken: null,
   expiresIn: null,
-  errorMsg: null
+  errorMsg: null,
+  authRedirectPath: "/"
 };
 
 const reducer = (state = initialState, action) => {
@@ -17,16 +18,27 @@ const reducer = (state = initialState, action) => {
         loggedIn: true,
         idToken: action.idToken,
         refreshToken: action.refreshToken,
-        expiresIn: action.expiresIn
+        expiresIn: action.expiresIn,
+        errorMsg: null,
+        authRedirectPath: "/todos"
       };
       return updatedSuccessState;
+
     case actionTypes.AUTH_FAIL:
       let updatedFailState = {
         ...state,
         loggedIn: false,
-        errorMsg: action.errorMsg
+        errorMsg: action.errorMsg,
+        idToken: null,
+        refreshToken: null,
+        expiresIn: null,
+        authRedirectPath: "/"
       };
       return updatedFailState;
+
+    case actionTypes.AUTH_LOGOUT:
+      return initialState;
+
     default:
       return state;
   }
