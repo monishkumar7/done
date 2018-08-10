@@ -1,1 +1,1 @@
-export { auth, logout } from "./auth";
+export { auth, logout, checkAuthState, authSetRedirectPath } from "./auth";

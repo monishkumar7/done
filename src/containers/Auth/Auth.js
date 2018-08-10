@@ -111,8 +111,9 @@ class Auth extends Component {
     let authTitle = <h4>{this.state.isSignUp ? "Sign Up" : "Sign In"}</h4>;
 
     let authRedirect = null;
-    if (this.props.loggedIn)
+    if (this.props.loggedIn) {
       authRedirect = <Redirect to={this.props.authRedirectPath} />;
+    }
 
     let switchModeText = (
       <div>
@@ -151,14 +152,17 @@ const mapStateToProps = state => {
   return {
     errorMsg: state.errorMsg,
     authRedirectPath: state.authRedirectPath,
-    loggedIn: state.loggedIn
+    loggedIn: state.idToken !== null
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     onAuth: (email, password, isSignUp) =>
-      dispatch(actionCreators.auth(email, password, isSignUp))
+      dispatch(actionCreators.auth(email, password, isSignUp)),
+    onCheckAuthState: () => dispatch(actionCreators.checkAuthState()),
+    onSetRedirectPath: path =>
+      dispatch(actionCreators.authSetRedirectPath(path))
   };
 };
 

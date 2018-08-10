@@ -43,6 +43,12 @@ const authFail = (state, action) => {
   });
 };
 
+const authSetRedirectPath = (state, action) => {
+  return updateObject(state, {
+    authRedirectPath: action.path
+  });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.AUTH_START:
@@ -51,6 +57,8 @@ const reducer = (state = initialState, action) => {
       return authSuccess(state, action);
     case actionTypes.AUTH_FAIL:
       return authFail(state, action);
+    case actionTypes.AUTH_SET_REDIRECT_PATH:
+      return authSetRedirectPath(state, action);
     case actionTypes.AUTH_LOGOUT:
       return initialState;
     default:

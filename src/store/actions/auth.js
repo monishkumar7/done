@@ -27,19 +27,19 @@ export const auth = (email, password, isSignup) => {
     axios
       .post(postUrl, postData)
       .then(response => {
-        const expirationTime = new Date(
+        const expirationDate = new Date(
           new Date().getTime() + response.data.expiresIn * 1000
         );
         localStorage.setItem("idToken", response.data.idToken);
         localStorage.setItem("refreshToken", response.data.refreshToken);
-        localStorage.setItem("expirationTime", expirationTime);
-        localStorage.setItem("userId", response.data.userId);
+        localStorage.setItem("expirationDate", expirationDate);
+        localStorage.setItem("userId", response.data.localId);
         dispatch(
           authSuccess(
             response.data.idToken,
             response.data.refreshToken,
             response.data.expiresIn,
-            response.data.userId
+            response.data.localId
           )
         );
         dispatch(checkAuthTimeout(response.data.expiresIn));
@@ -70,31 +70,31 @@ export const authFail = errorMsg => {
 export const logout = () => {
   localStorage.removeItem("idToken");
   localStorage.removeItem("refreshToken");
-  localStorage.removeItem("expirationTime");
+  localStorage.removeItem("expirationDate");
   localStorage.removeItem("userId");
   return {
     type: actionTypes.AUTH_LOGOUT
   };
 };
 
-export const checkAuthTimeout = expirationTime => {
+export const checkAuthTimeout = expirationDate => {
   return dispatch => {
     setTimeout(() => {
       dispatch(logout());
-    }, expirationTime * 1000);
+    }, expirationDate * 1000);
   };
 };
 
 export const checkAuthState = () => {
   return dispatch => {
     const idToken = localStorage.getItem("idToken");
-    if (!idToken) dispatch(logout());
-    else {
+    if (idToken !== null) {
       const expirationDate = new Date(localStorage.getItem("expirationDate"));
       if (expirationDate > new Date()) {
         const refreshToken = localStorage.getItem("refreshToken");
         const userId = localStorage.getItem("userId");
         const expiresIn = localStorage.getItem("expiresIn");
+        dispatch(authSetRedirectPath("/todos"));
         dispatch(authSuccess(idToken, refreshToken, expiresIn, userId));
         dispatch(
           checkAuthTimeout(
@@ -105,5 +105,12 @@ export const checkAuthState = () => {
         dispatch(logout());
       }
     }
+  };
+};
+
+export const authSetRedirectPath = path => {
+  return {
+    type: actionTypes.AUTH_SET_REDIRECT_PATH,
+    path: path
   };
 };
