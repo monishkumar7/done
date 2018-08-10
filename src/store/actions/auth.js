@@ -94,7 +94,6 @@ export const checkAuthState = () => {
         const refreshToken = localStorage.getItem("refreshToken");
         const userId = localStorage.getItem("userId");
         const expiresIn = localStorage.getItem("expiresIn");
-        dispatch(authSetRedirectPath("/todos"));
         dispatch(authSuccess(idToken, refreshToken, expiresIn, userId));
         dispatch(
           checkAuthTimeout(

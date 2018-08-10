@@ -43,6 +43,11 @@ class Auth extends Component {
     isSignUp: false
   };
 
+  componentDidMount = () => {
+    this.props.onCheckAuthState();
+    console.log(this.props);
+  };
+
   checkValidity = (value, rules) => {
     let isValid = true;
 
@@ -112,6 +117,7 @@ class Auth extends Component {
 
     let authRedirect = null;
     if (this.props.loggedIn) {
+      console.log(this.props);
       authRedirect = <Redirect to={this.props.authRedirectPath} />;
     }
 
@@ -152,7 +158,7 @@ const mapStateToProps = state => {
   return {
     errorMsg: state.errorMsg,
     authRedirectPath: state.authRedirectPath,
-    loggedIn: state.idToken !== null
+    loggedIn: state.loggedIn
   };
 };
 
