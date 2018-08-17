@@ -1,10 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { withStyles } from "@material-ui/core/styles";
 
-import classes from "./ToDos.css";
 import Button from "../../components/UI/Button/Button";
 import * as actionCreators from "../../store/actions";
+
+const styles = theme => ({
+  todos: {
+    display: "block"
+  }
+});
 
 class ToDos extends Component {
   logoutClick = () => {
@@ -15,7 +21,7 @@ class ToDos extends Component {
     let authRedirect = null;
     if (!this.props.auth) authRedirect = <Redirect to="/" />;
     return (
-      <div className={classes.ToDos}>
+      <div className={this.props.classes.todos}>
         {authRedirect}
         <h4>List</h4>
         <Button btnType="Danger" clicked={this.logoutClick}>
@@ -37,7 +43,9 @@ const mapDispatchToProps = dispatch => {
     onLogout: () => dispatch(actionCreators.logout())
   };
 };
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ToDos);
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(ToDos)
+);

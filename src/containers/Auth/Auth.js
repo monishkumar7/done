@@ -1,11 +1,20 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import { withStyles } from "@material-ui/core/styles";
 
-import classes from "./Auth.css";
 import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
 import * as actionCreators from "../../store/actions";
+
+const styles = theme => ({
+  authContainer: {
+    display: "block"
+  },
+  loginForm: {
+    display: "block"
+  }
+});
 
 class Auth extends Component {
   state = {
@@ -134,9 +143,12 @@ class Auth extends Component {
     );
 
     return (
-      <div className={classes.Auth}>
+      <div className={this.props.classes.authContainer}>
         {authRedirect}
-        <form className={classes.LoginForm} onSubmit={this.submitHandler}>
+        <form
+          className={this.props.classes.loginForm}
+          onSubmit={this.submitHandler}
+        >
           {authTitle}
           {form}
           <Button btnType="Danger">
@@ -170,7 +182,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Auth);
+export default withStyles(styles)(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Auth)
+);

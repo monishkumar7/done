@@ -13,7 +13,7 @@ const initialState = {
   loading: false
 };
 
-const authStart = (state, action) => {
+const authStart = state => {
   return updateObject(state, { loading: true });
 };
 
@@ -52,7 +52,7 @@ const authSetRedirectPath = (state, action) => {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.AUTH_START:
-      return authStart(state, action);
+      return authStart(state);
     case actionTypes.AUTH_SUCCESS:
       return authSuccess(state, action);
     case actionTypes.AUTH_FAIL:

@@ -8,7 +8,6 @@ import thunk from "redux-thunk";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
-import "./index.css";
 import App from "./containers/App/App";
 import registerServiceWorker from "./registerServiceWorker";
 
