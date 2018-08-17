@@ -1,52 +1,41 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
+import React, { Fragment } from "react";
+import { Typography, Grid } from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
 
-import classes from "./Home.css";
-import * as actionCreators from "../../store/actions";
-import Button from "../../components/UI/Button/Button";
-
-class Home extends Component {
-  componentDidMount = () => {
-    this.props.checkAuthState();
-  };
-
-  loginClick = () => {
-    this.props.history.push("/login");
-  };
-
-  render() {
-    let redirect = null;
-    if (this.props.redirectPath !== "/")
-      redirect = <Redirect to={this.props.redirectPath} />;
-
-    return (
-      <div className={classes.Home}>
-        {redirect}
-        <h4>Welcome to Done App</h4>
-        <Button btnType="Primary" clicked={this.loginClick}>
-          Login
-        </Button>
-      </div>
-    );
+const styles = {
+  testGrid: {
+    textAlign: "center"
+  },
+  leftPane: {
+    textAlign: "left"
+  },
+  rightPane: {
+    textAlign: "right"
+  },
+  centerPane: {
+    textAlign: "center"
   }
-}
-
-const mapStateToProps = state => {
-  return {
-    loggedIn: state.loggedIn,
-    redirectPath: state.authRedirectPath
-  };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setRedirectPath: path => dispatch(actionCreators.authSetRedirectPath(path)),
-    checkAuthState: () => dispatch(actionCreators.checkAuthState())
-  };
+const home = props => {
+  return (
+    <Fragment>
+      <Grid container justify="center">
+        <Grid item xs={12} className={props.classes.testGrid}>
+          <Typography variant="headline">Welcome to Done app</Typography>
+        </Grid>
+        <Grid item xs className={props.classes.leftPane}>
+          This is the left Pane
+        </Grid>
+        <Grid item xs className={props.classes.centerPane}>
+          This is the center Pane
+        </Grid>
+        <Grid item xs className={props.classes.rightPane}>
+          This is the right Pane
+        </Grid>
+      </Grid>
+    </Fragment>
+  );
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Home);
+export default withStyles(styles)(home);

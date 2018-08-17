@@ -13,7 +13,7 @@ class ToDos extends Component {
 
   render() {
     let authRedirect = null;
-    if (!this.props.loggedIn) authRedirect = <Redirect to="/" />;
+    if (!this.props.auth) authRedirect = <Redirect to="/" />;
     return (
       <div className={classes.ToDos}>
         {authRedirect}
@@ -28,7 +28,7 @@ class ToDos extends Component {
 
 const mapStateToProps = state => {
   return {
-    loggedIn: state.loggedIn
+    auth: state.auth
   };
 };
 

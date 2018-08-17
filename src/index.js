@@ -1,10 +1,12 @@
-import React from "react";
+import React, { Fragment } from "react";
 import ReactDOM from "react-dom";
 
 import { createStore, applyMiddleware, compose } from "redux";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import thunk from "redux-thunk";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 
 import "./index.css";
 import App from "./containers/App/App";
@@ -19,12 +21,31 @@ const store = createStore(
   composeEnhancers(applyMiddleware(thunk))
 );
 
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#7b1fa2"
+    },
+    secondary: {
+      main: "#ffea00"
+    }
+  },
+  typography: {
+    fontFamily: ["Cabin", "sans-serif"].join(",")
+  }
+});
+
 const app = (
-  <Provider store={store}>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </Provider>
+  <MuiThemeProvider theme={theme}>
+    <Provider store={store}>
+      <Fragment>
+        <CssBaseline />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Fragment>
+    </Provider>
+  </MuiThemeProvider>
 );
 
 ReactDOM.render(app, document.getElementById("root"));
